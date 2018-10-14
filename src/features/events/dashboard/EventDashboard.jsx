@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import EventList from '../event_list/EventList'
 import EventForm from "../event_form/EventForm";
 
-const events = [
+const eventsDashboard = [
     {
         id: '1',
         title: 'Parc de la Tête d\'or',
@@ -53,15 +53,34 @@ const events = [
     }
 ]
 class EventDashboard extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            events : eventsDashboard,
+            open: false
+        };
+        this.toggleForm = this.toggleForm.bind(this);
+    }
+
+    toggleForm() {
+        this.setState({
+            open: !this.state.open
+        });
+    }
     render() {
         return (
             <div className="flex flex-wrap -mx-3">
-                <div className="sm:w-full md:w-2/3 my-8 px-3">
-                    <EventList events={events}/>
+                <div className="sm:w-full md:w-2/3 mt-8 md:px-3">
+                    <EventList events={this.state.events}/>
                 </div>
 
-                <div className="sm:w-full md:w-1/3 my-8 px-3">
-                    <EventForm/>
+                <div className="sm:w-full md:w-1/3 mt-8 md:px-3">
+                    <button
+                        className="bg-white hover:bg-grey-lightest text-grey-darkest font-semibold py-2 px-4 mb-6 border border-grey-light rounded shadow"
+                        onClick={this.toggleForm}>
+                        Create Event
+                    </button>
+                    {this.state.open && <EventForm/>}
                 </div>
             </div>
         )

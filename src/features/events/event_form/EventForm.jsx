@@ -4,7 +4,7 @@ class EventForm extends Component {
     render() {
         return (
             <div className="w-full">
-                <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 border">
+                <form className="bg-white shadow-md rounded p-6 border">
                     <div className="mb-4">
                         <label className="block text-grey-darker text-sm font-bold mb-2" htmlFor="username">
                             Event Title
