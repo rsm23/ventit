@@ -1,17 +1,42 @@
 import React, {Component} from 'react';
 
 class EventForm extends Component {
+    state = {
+        event: {
+            title: '',
+            date: '',
+            city: '',
+            venue: '',
+            hostedBy: ''
+        }
+    };
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.props.createEvent(this.state.event);
+    };
+    onInputChange = (e) => {
+        let newEvent = this.state.event;
+        newEvent[e.target.name] = e.target.value;
+
+        this.setState({
+            event: newEvent
+        })
+    };
+
     render() {
+        const {handleCancel} = this.props;
+        const {event} = this.state;
         return (
             <div className="w-full">
-                <form className="bg-white shadow-md rounded p-6 border">
+                <form className="bg-white shadow-md rounded p-6 border" onSubmit={this.handleSubmit}>
                     <div className="mb-4">
                         <label className="block text-grey-darker text-sm font-bold mb-2" htmlFor="username">
                             Event Title
                         </label>
                         <input
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
-                            id="title" name="title" type="text" placeholder="Event Title"/>
+                            id="title" name="title" type="text" placeholder="Event Title" onChange={this.onInputChange}
+                            value={event.title}/>
                     </div>
 
                     <div className="mb-4">
@@ -20,7 +45,7 @@ class EventForm extends Component {
                         </label>
                         <input
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
-                            id="date" type="date" name="date"/>
+                            id="date" type="date" name="date" value={event.date} onChange={this.onInputChange}/>
                     </div>
 
                     <div className="mb-4">
@@ -29,7 +54,7 @@ class EventForm extends Component {
                         </label>
                         <input
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
-                            id="city" name="city" type="text" placeholder="City"/>
+                            id="city" name="city" type="text" placeholder="City" value={event.city} onChange={this.onInputChange}/>
                     </div>
 
                     <div className="mb-4">
@@ -38,7 +63,8 @@ class EventForm extends Component {
                         </label>
                         <input
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
-                            id="venue" name="venue" type="text" placeholder="123 venue of streets"/>
+                            id="venue" name="venue" type="text" placeholder="123 venue of streets"
+                            onChange={this.onInputChange} value={event.venue}/>
                     </div>
 
                     <div className="mb-4">
@@ -47,7 +73,8 @@ class EventForm extends Component {
                         </label>
                         <input
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
-                            id="user" name="user" type="text" placeholder="John Doe"/>
+                            id="hostedBy" name="hostedBy" type="text" placeholder="John Doe"
+                            onChange={this.onInputChange} value={event.hostedBy}/>
                     </div>
                     <div className="flex items-center justify-between">
                         <button
@@ -57,7 +84,8 @@ class EventForm extends Component {
                         </button>
                         <button
                             className="bg-grey hover:bg-grey-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                            type="reset">
+                            type="reset"
+                            onClick={handleCancel}>
                             Cancel
                         </button>
                     </div>

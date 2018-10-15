@@ -44,9 +44,9 @@ class EventListItem extends Component {
                         </div>
                     </div>
                     <div className="flex p-3 py-4 border-b bg-grey-lighter justify-center">
-                        {event.attendees.map((attendee)=> (
+                        {(event.attendees) ? event.attendees.map((attendee)=> (
                             <EventListAttendee key={attendee.id} attendee={attendee}/>
-                        ))}
+                        )) : 'No attendees at the moment'}
                     </div>
                     <div className="flex justify-between">
                         <p className="p-4 text-grey-darkest w-full">

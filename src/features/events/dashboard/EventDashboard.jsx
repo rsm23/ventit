@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
+import cuid from 'cuid'
 import EventList from '../event_list/EventList'
-import EventForm from "../event_form/EventForm";
+import EventForm from "../event_form/EventForm"
 
 const eventsDashboard = [
     {
@@ -51,22 +52,37 @@ const eventsDashboard = [
             }
         ]
     }
-]
-class EventDashboard extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            events : eventsDashboard,
-            open: false
-        };
-        this.toggleForm = this.toggleForm.bind(this);
-    }
+];
 
-    toggleForm() {
+class EventDashboard extends Component {
+    state = {
+        events: eventsDashboard,
+        open: false
+    };
+
+    toggleForm = () => {
         this.setState({
             open: !this.state.open
         });
-    }
+    };
+
+    handleCancel = () => {
+        this.setState({
+            open: false
+        });
+    };
+
+    handleCreateEvent = (newEvent) => {
+        newEvent.id = cuid();
+        newEvent.hostPhotoURL = '/assets/images/user.png'
+
+        const updatedEvents = [...this.state.events, newEvent]
+        this.setState({
+            events : updatedEvents,
+            open : false
+        })
+    };
+
     render() {
         return (
             <div className="flex flex-wrap -mx-3">
@@ -80,7 +96,7 @@ class EventDashboard extends Component {
                         onClick={this.toggleForm}>
                         Create Event
                     </button>
-                    {this.state.open && <EventForm/>}
+                    {this.state.open && <EventForm createEvent={this.handleCreateEvent} handleCancel={this.handleCancel}/>}
                 </div>
             </div>
         )
