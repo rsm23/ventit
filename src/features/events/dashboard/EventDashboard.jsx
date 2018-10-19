@@ -7,7 +7,7 @@ const eventsDashboard = [
     {
         id: '1',
         title: 'Parc de la Tête d\'or',
-        date: '2018-09-27T11:00:00+00:00',
+        date: '2018-09-27',
         category: 'culture',
         description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.',
@@ -31,7 +31,7 @@ const eventsDashboard = [
     {
         id: '2',
         title: 'Place Bellecour',
-        date: '2018-09-28T14:00:00+00:00',
+        date: '2018-09-28',
         category: 'Shopping',
         description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.',
@@ -57,7 +57,8 @@ const eventsDashboard = [
 class EventDashboard extends Component {
     state = {
         events: eventsDashboard,
-        open: false
+        open: false,
+        selectedEvent: null
     };
 
     toggleForm = () => {
@@ -68,35 +69,60 @@ class EventDashboard extends Component {
 
     handleCancel = () => {
         this.setState({
-            open: false
+            selectedEvent: null
         });
+    };
+
+    handleUpdateEvent = (updatedEvent) => {
+        this.setState({
+            event: this.state.events.map(event => {
+                if (event.id === updatedEvent.id) {
+                    return Object.assign({}, updatedEvent)
+                } else {
+                    return event;
+                }
+            }),
+            selectedEvent: null,
+            open: false
+        })
+    };
+
+    handleOpenEvent = (eventToOpen) => (e) => {
+        e.preventDefault();
+        this.setState({
+            selectedEvent: eventToOpen,
+            open: true
+        })
     };
 
     handleCreateEvent = (newEvent) => {
         newEvent.id = cuid();
-        newEvent.hostPhotoURL = '/assets/images/user.png'
+        newEvent.hostPhotoURL = '/assets/images/user.png';
 
-        const updatedEvents = [...this.state.events, newEvent]
+        const updatedEvents = [...this.state.events, newEvent];
         this.setState({
-            events : updatedEvents,
-            open : false
+            events: updatedEvents,
+            open: false
         })
     };
 
     render() {
+        const {open, selectedEvent} = this.state;
         return (
             <div className="flex flex-wrap -mx-3">
                 <div className="sm:w-full md:w-2/3 mt-8 md:px-3">
-                    <EventList events={this.state.events}/>
+                    <EventList onEventOpen={this.handleOpenEvent} events={this.state.events}/>
                 </div>
 
                 <div className="sm:w-full md:w-1/3 mt-8 md:px-3">
                     <button
                         className="bg-white hover:bg-grey-lightest text-grey-darkest font-semibold py-2 px-4 mb-6 border border-grey-light rounded shadow"
                         onClick={this.toggleForm}>
-                        Create Event
+                        {(open) ? 'Close Form' : 'Create Event'}
                     </button>
-                    {this.state.open && <EventForm createEvent={this.handleCreateEvent} handleCancel={this.handleCancel}/>}
+                    {open && <EventForm createEvent={this.handleCreateEvent} handleCancel={this.handleCancel}
+                                        selectedEvent={selectedEvent}
+                                        updateEvent={this.handleUpdateEvent}/>}
                 </div>
             </div>
         )

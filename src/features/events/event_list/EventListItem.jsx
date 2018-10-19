@@ -3,7 +3,7 @@ import EventListAttendee from './EventListAttendee';
 
 class EventListItem extends Component {
     render() {
-        const {event} = this.props;
+        const {event, onEventOpen} = this.props;
 
         return (
             <div className="font-sans">
@@ -53,8 +53,9 @@ class EventListItem extends Component {
                             {event.description}
                         </p>
                         <div className="border-t border-l border-grey-lighter text-sm flex">
-                            <a href="#"
-                               className="flex no-underline text-blue px-4 py-2 justify-center items-center font-bold hover:bg-grey-lighter">
+                            <a href="/view"
+                               className="flex no-underline text-blue px-4 py-2 justify-center items-center font-bold hover:bg-grey-lighter"
+                                onClick={onEventOpen(event)}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                      viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
                                      strokeLinecap="round" strokeLinejoin="round"
