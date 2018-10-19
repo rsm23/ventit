@@ -106,12 +106,21 @@ class EventDashboard extends Component {
         })
     };
 
+    handleDeleteEvent = (eventId) => (e) => {
+        e.preventDefault();
+        const updatedEvents = this.state.events.filter(e => e.id !== eventId);
+        this.setState({
+            events: updatedEvents
+        })
+    };
+
     render() {
         const {open, selectedEvent} = this.state;
         return (
             <div className="flex flex-wrap -mx-3">
                 <div className="sm:w-full md:w-2/3 mt-8 md:px-3">
-                    <EventList onEventOpen={this.handleOpenEvent} events={this.state.events}/>
+                    <EventList deleteEvents={this.handleDeleteEvent} onEventOpen={this.handleOpenEvent}
+                               events={this.state.events}/>
                 </div>
 
                 <div className="sm:w-full md:w-1/3 mt-8 md:px-3">

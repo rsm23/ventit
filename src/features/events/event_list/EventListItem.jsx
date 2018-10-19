@@ -3,7 +3,7 @@ import EventListAttendee from './EventListAttendee';
 
 class EventListItem extends Component {
     render() {
-        const {event, onEventOpen} = this.props;
+        const {event, onEventOpen, deleteEvent} = this.props;
 
         return (
             <div className="font-sans">
@@ -44,7 +44,7 @@ class EventListItem extends Component {
                         </div>
                     </div>
                     <div className="flex p-3 py-4 border-b bg-grey-lighter justify-center">
-                        {(event.attendees) ? event.attendees.map((attendee)=> (
+                        {(event.attendees) ? event.attendees.map((attendee) => (
                             <EventListAttendee key={attendee.id} attendee={attendee}/>
                         )) : 'No attendees at the moment'}
                     </div>
@@ -52,10 +52,10 @@ class EventListItem extends Component {
                         <p className="p-4 text-grey-darkest w-full">
                             {event.description}
                         </p>
-                        <div className="border-t border-l border-grey-lighter text-sm flex">
+                        <div className="text-sm flex">
                             <a href="/view"
-                               className="flex no-underline text-blue px-4 py-2 justify-center items-center font-bold hover:bg-grey-lighter"
-                                onClick={onEventOpen(event)}>
+                               className="flex no-underline text-blue px-4 py-2 justify-center items-center font-bold hover:bg-grey-lighter border-t border-l border-grey-lighter "
+                               onClick={onEventOpen(event)}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                      viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
                                      strokeLinecap="round" strokeLinejoin="round"
@@ -64,6 +64,21 @@ class EventListItem extends Component {
                                         d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
                                 </svg>
                                 <span>View</span>
+                            </a>
+
+                            <a href="/delete"
+                               className="flex no-underline text-white px-4 py-2 justify-center items-center font-bold bg-red-light hover:bg-red"
+                               onClick={deleteEvent(event.id)}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                     fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                     strokeLinejoin="round" className="mr-2">
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path
+                                        d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                                </svg>
+                                <span>Delete</span>
                             </a>
                         </div>
                     </div>
